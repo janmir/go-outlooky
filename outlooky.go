@@ -45,6 +45,7 @@ func init() {
 	api, err := oleutil.CallMethod(handle, "GetNamespace", "MAPI")
 	u.Catch(err)
 
+	outlook.handle = handle
 	outlook.api = api.ToIDispatch()
 }
 
@@ -100,7 +101,7 @@ func (out Outlooky) SaveItem(item *ole.IDispatch) {
 }
 
 //QuitApplication ...
-func (out Outlooky) QuitApplication(item *ole.IDispatch) {
+func (out Outlooky) QuitApplication() {
 	_, err := out.CallMethod(out.handle, "Quit")
 	u.Catch(err)
 }
