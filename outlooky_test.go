@@ -13,6 +13,20 @@ func TestGetDefault(t *testing.T) {
 	}
 }
 
+func TestGetCustom(t *testing.T) {
+	folder := outlook.GetCustomFolder("Custom")
+	if folder == nil {
+		t.Fail()
+	}
+
+	// items := outlook.GetItems(folder)
+	count := outlook.GetPropertyValue(folder, "Count").(int32)
+	u.Logger("Folder Content:", count)
+
+	if count <= 0 {
+		t.Fail()
+	}
+}
 func TestGetItems(t *testing.T) {
 	folder := outlook.GetDefaultFolder(_Indox)
 	if folder == nil {

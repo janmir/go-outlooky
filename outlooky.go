@@ -34,8 +34,8 @@ type Outlooky struct {
 
 func init() {
 	outlook = Outlooky{}
-
 	ole.CoInitialize(0)
+
 	unknown, err := oleutil.CreateObject(_AppName)
 	u.Catch(err)
 
@@ -45,9 +45,29 @@ func init() {
 	api, err := oleutil.CallMethod(handle, "GetNamespace", "MAPI")
 	u.Catch(err)
 
+	//References
 	outlook.handle = handle
 	outlook.api = api.ToIDispatch()
 }
+
+/*
+	Outlooky-looky
+*/
+
+//getmail, read/unread
+//listmail, read/unread
+//updateMail, subject/body
+
+/*
+	Utility Functions
+*/
+
+//per item
+//get flags
+//set flags
+
+//per list
+//sort
 
 //GetDefaultFolder ...
 func (out Outlooky) GetDefaultFolder(id int) *ole.IDispatch {
@@ -57,7 +77,15 @@ func (out Outlooky) GetDefaultFolder(id int) *ole.IDispatch {
 	return folder.ToIDispatch()
 }
 
+//GetCustomFolder ...
+func (out Outlooky) GetCustomFolder(name string) *ole.IDispatch {
+	folder := out.GetPropertyObject(out.api, "Folders")
+
+	return folder
+}
+
 //GetItems ...
+// Should only be used for non-root folder containing non-_*Item objects
 func (out Outlooky) GetItems(folder *ole.IDispatch) *ole.IDispatch {
 	items, err := out.CallMethod(folder, "Items")
 	u.Catch(err)
