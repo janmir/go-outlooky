@@ -10,8 +10,16 @@ func TestGetMail(t *testing.T) {
 	defer u.Recover()
 
 	tree := outlook.GetMails("paulzu100@gmail.com", "Custom")
+	leaves := outlook.ListMails(tree, true)
 
-	u.Logger(outlook.ListMails(tree, true))
+	u.Logger(leaves)
+
+	//make updates
+	outlook.UpdateMail(leaves[0], MailItem{
+		Subject:  "Hello",
+		Body:     "Hello",
+		HTMLBody: "<b>Hello</b>",
+	})
 }
 
 func TestGetDefault(t *testing.T) {

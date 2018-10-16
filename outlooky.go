@@ -120,7 +120,19 @@ func (out Outlooky) ListMails(tree Tree, unread bool) []MailItem {
 	return newList
 }
 
-//updateMail, subject/body
+//UpdateMail ...
+func (out Outlooky) UpdateMail(o, n MailItem) {
+	defer u.TimeTrack(time.Now(), "UpdateMail")
+	item := o.Data
+
+	//Apply updates
+	_ = oleutil.MustPutProperty(item, "Subject", n.Subject)
+	_ = oleutil.MustPutProperty(item, "Body", n.Body)
+	_ = oleutil.MustPutProperty(item, "HTMLBody", n.HTMLBody)
+
+	//Save
+	out.SaveItem(item)
+}
 
 /***************************************
 	Utility Functions
@@ -134,8 +146,7 @@ func (out Outlooky) GetLeaf(tree Tree, identifier Leaf, sort bool) []interface{}
 
 	//sort
 	if sort {
-		_, err := out.CallMethod(branch, "Sort", "[ReceivedTime]", true)
-		u.Catch(err)
+		out.SortItems(branch, "[ReceivedTime]", true)
 	}
 
 	//traverse
@@ -219,6 +230,12 @@ func (out Outlooky) SetPropertyValue(item *ole.IDispatch, name string, params ..
 
 	//save changes
 	out.SaveItem(item)
+}
+
+//SortItems ...
+func (out Outlooky) SortItems(items *ole.IDispatch, by string, desc bool) {
+	_, err := out.CallMethod(items, "Sort", by, desc)
+	u.Catch(err)
 }
 
 //SaveItem ...
