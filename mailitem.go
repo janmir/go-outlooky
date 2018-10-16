@@ -1,7 +1,13 @@
 package outlooky
 
+import (
+	"github.com/go-ole/go-ole"
+)
+
 //MailItem _MailItem
 type MailItem struct {
+	Data *ole.IDispatch
+
 	//Actions                           //Returns an Actions collection that represents all the available actions for the item. Read-only.
 	AlternateRecipientAllowed bool //Returns a Boolean (bool in C#) that is True if the mail message can be forwarded. Read/write.
 	//Application                       //Returns an Application object that represents the parent Outlook application for the object. Read-only.
@@ -100,4 +106,15 @@ type MailItem struct {
 	//UserProperties                           //Returns the UserProperties collection that represents all the user properties for the Outlook item. Read-only.
 	VotingOptions  string //Returns or sets a String (string in C#) specifying a delimited string containing the voting options for the mail message. Read/write.
 	VotingResponse string //Returns or sets a String (string in C#) specifying the voting response for the mail message. Read/write.
+}
+
+//Unmarshal ...
+func (m MailItem) Unmarshal(data *ole.IDispatch) interface{} {
+	mm := MailItem{Data: data}
+	mm.Subject = outlook.GetPropertyValue(data, "Subject").(string)
+	mm.UnRead = outlook.GetPropertyValue(data, "UnRead").(bool)
+	mm.HTMLBody = outlook.GetPropertyValue(data, "HTMLBody").(string)
+	mm.Body = outlook.GetPropertyValue(data, "Body").(string)
+
+	return mm
 }

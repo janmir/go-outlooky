@@ -6,8 +6,16 @@ import (
 	u "github.com/janmir/go-util"
 )
 
+func TestGetMail(t *testing.T) {
+	defer u.Recover()
+
+	tree := outlook.GetMails("paulzu100@gmail.com", "Custom")
+
+	u.Logger(outlook.ListMails(tree, true))
+}
+
 func TestGetDefault(t *testing.T) {
-	res := outlook.GetDefaultFolder(_Indox)
+	res := outlook.GetDefaultFolder(_Inbox)
 	if res == nil {
 		t.Fail()
 	}
@@ -32,7 +40,7 @@ func TestGetCustom(t *testing.T) {
 	}
 }
 func TestGetItems(t *testing.T) {
-	folder := outlook.GetDefaultFolder(_Indox)
+	folder := outlook.GetDefaultFolder(_Inbox)
 	if folder == nil {
 		t.Fail()
 	}
@@ -51,7 +59,7 @@ func TestGetItems(t *testing.T) {
 }
 
 func TestGetPropertyValue(t *testing.T) {
-	folder := outlook.GetDefaultFolder(_Indox)
+	folder := outlook.GetDefaultFolder(_Inbox)
 	if folder == nil {
 		t.Fail()
 	}
@@ -70,7 +78,7 @@ func TestGetPropertyValue(t *testing.T) {
 }
 
 func TestGetPropertyObject(t *testing.T) {
-	folder := outlook.GetDefaultFolder(_Indox)
+	folder := outlook.GetDefaultFolder(_Inbox)
 	if folder == nil {
 		t.Fail()
 	}
@@ -93,7 +101,7 @@ func TestGetPropertyObject(t *testing.T) {
 }
 
 func TestSetPropertyValue(t *testing.T) {
-	folder := outlook.GetDefaultFolder(_Indox)
+	folder := outlook.GetDefaultFolder(_Inbox)
 	if folder == nil {
 		t.Fail()
 	}

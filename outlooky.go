@@ -2,6 +2,7 @@ package outlooky
 
 import (
 	"errors"
+	"time"
 
 	ole "github.com/go-ole/go-ole"
 	"github.com/go-ole/go-ole/oleutil"
@@ -9,15 +10,16 @@ import (
 )
 
 const (
-	_Deleted  = 3  //Deleted items
-	_Outbox   = 4  //Outbox
-	_Sent     = 5  //Sent Items
-	_Indox    = 6  //Inbox
-	_Calendar = 9  //Calendar
-	_Contacts = 10 //Contacts
-	_Journal  = 11 //Journal
-	_Notes    = 12 //Notes
-	_Tasks    = 13 //Tasks
+	_Limit    = 100 //1000
+	_Deleted  = 3   //Deleted items
+	_Outbox   = 4   //Outbox
+	_Sent     = 5   //Sent Items
+	_Inbox    = 6   //Inbox
+	_Calendar = 9   //Calendar
+	_Contacts = 10  //Contacts
+	_Journal  = 11  //Journal
+	_Notes    = 12  //Notes
+	_Tasks    = 13  //Tasks
 
 	_AppName = "Outlook.Application"
 )
@@ -30,6 +32,18 @@ var (
 type Outlooky struct {
 	handle *ole.IDispatch
 	api    *ole.IDispatch
+}
+
+//Tree Defines a tree
+type Tree struct {
+	Name   string
+	Handle *ole.IDispatch
+	Leaves []interface{}
+}
+
+//Leaf ...
+type Leaf interface {
+	Unmarshal(data *ole.IDispatch) interface{}
 }
 
 func init() {
@@ -50,24 +64,97 @@ func init() {
 	outlook.api = api.ToIDispatch()
 }
 
-/*
-	Outlooky-looky
-*/
+/***************************************
+	Outlooky-looky Functions
+****************************************/
 
-//getmail, read/unread
-//listmail, read/unread
+//GetMails ...
+func (out Outlooky) GetMails(arg ...interface{}) Tree {
+	defer u.TimeTrack(time.Now(), "GetMails")
+
+	//get inbox
+	var (
+		inbox  *ole.IDispatch
+		tree   = Tree{}
+		length = len(arg)
+		name   = ""
+	)
+
+	if length == 0 {
+		return tree
+	}
+
+	if length == 1 {
+		switch arg[0].(type) {
+		case int:
+			inbox = out.GetDefaultFolder(arg[0].(int))
+		case string:
+			inbox = out.GetCustomFolder(arg[0].(string))
+		}
+	} else {
+		inbox = out.GetCustomFolder(arg[0].(string), arg[1:]...)
+	}
+
+	tree.Handle = inbox
+	tree.Name = name
+	tree.Leaves = out.GetLeaf(tree, MailItem{}, true)
+
+	u.Logger("Fetched: ", len(tree.Leaves))
+
+	return tree
+}
+
+//ListMails list/filter mail, read/unread
+func (out Outlooky) ListMails(tree Tree, unread bool) []MailItem {
+	defer u.TimeTrack(time.Now(), "ListMails")
+
+	newList := make([]MailItem, 0)
+
+	for _, v := range tree.Leaves {
+		item := v.(MailItem)
+		if item.UnRead == unread {
+			newList = append(newList, item)
+		}
+	}
+
+	return newList
+}
+
 //updateMail, subject/body
 
-/*
+/***************************************
 	Utility Functions
-*/
+****************************************/
 
-//per item
+//GetLeaf returns a single item of type interface
+func (out Outlooky) GetLeaf(tree Tree, identifier Leaf, sort bool) []interface{} {
+	leaves := make([]interface{}, 0)
+
+	branch := out.GetItems(tree.Handle)
+
+	//sort
+	if sort {
+		_, err := out.CallMethod(branch, "Sort", "[ReceivedTime]", true)
+		u.Catch(err)
+	}
+
+	//traverse
+	count := int(out.GetPropertyValue(branch, "Count").(int32))
+
+	//set limit
+	count = u.Min(_Limit, count)
+
+	//Traverse
+	for i := 1; i <= count; i++ {
+		leaf := out.GetItem(branch, i)
+		leaves = append(leaves, identifier.Unmarshal(leaf))
+	}
+
+	return leaves
+}
+
 //get flags
 //set flags
-
-//per list
-//sort
 
 //GetDefaultFolder ...
 func (out Outlooky) GetDefaultFolder(id int) *ole.IDispatch {
@@ -78,7 +165,7 @@ func (out Outlooky) GetDefaultFolder(id int) *ole.IDispatch {
 }
 
 //GetCustomFolder ...
-func (out Outlooky) GetCustomFolder(main string, subs ...string) *ole.IDispatch {
+func (out Outlooky) GetCustomFolder(main string, subs ...interface{}) *ole.IDispatch {
 	folders := out.GetPropertyObject(out.api, "Folders") //Returns []Folder
 	folder := out.GetItem(folders, main)
 
