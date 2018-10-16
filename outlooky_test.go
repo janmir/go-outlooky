@@ -14,14 +14,18 @@ func TestGetDefault(t *testing.T) {
 }
 
 func TestGetCustom(t *testing.T) {
-	folder := outlook.GetCustomFolder("Custom")
+	folder := outlook.GetCustomFolder("paulzu100@gmail.com", "Custom", "Custom")
 	if folder == nil {
 		t.Fail()
 	}
 
 	// items := outlook.GetItems(folder)
-	count := outlook.GetPropertyValue(folder, "Count").(int32)
-	u.Logger("Folder Content:", count)
+	name := outlook.GetPropertyValue(folder, "Name").(string)
+	u.Logger("Folder Name:", name)
+
+	items := outlook.GetItems(folder)
+	count := outlook.GetPropertyValue(items, "Count").(int32)
+	u.Logger("Item Count:", count)
 
 	if count <= 0 {
 		t.Fail()
@@ -35,6 +39,13 @@ func TestGetItems(t *testing.T) {
 
 	items := outlook.GetItems(folder)
 	if items == nil {
+		t.Fail()
+	}
+
+	count := outlook.GetPropertyValue(items, "Count").(int32)
+	u.Logger("Item Count:", count)
+
+	if count <= 0 {
 		t.Fail()
 	}
 }

@@ -78,14 +78,26 @@ func (out Outlooky) GetDefaultFolder(id int) *ole.IDispatch {
 }
 
 //GetCustomFolder ...
-func (out Outlooky) GetCustomFolder(name string) *ole.IDispatch {
-	folder := out.GetPropertyObject(out.api, "Folders")
+func (out Outlooky) GetCustomFolder(main string, subs ...string) *ole.IDispatch {
+	folders := out.GetPropertyObject(out.api, "Folders") //Returns []Folder
+	folder := out.GetItem(folders, main)
 
-	return folder
+	for _, v := range subs {
+		folders = out.GetPropertyObject(folder, "Folders")
+		folder = out.GetItem(folders, v)
+	}
+
+	return folder //Returns Folder
+}
+
+//GetItem ...
+// e.g Folder, Contact
+func (out Outlooky) GetItem(folder *ole.IDispatch, arg ...interface{}) *ole.IDispatch {
+	return out.GetPropertyObject(folder, "Item", arg...)
 }
 
 //GetItems ...
-// Should only be used for non-root folder containing non-_*Item objects
+// e.g. _MailItem
 func (out Outlooky) GetItems(folder *ole.IDispatch) *ole.IDispatch {
 	items, err := out.CallMethod(folder, "Items")
 	u.Catch(err)
@@ -107,7 +119,7 @@ func (out Outlooky) GetPropertyObject(item *ole.IDispatch, name string, params .
 	u.Catch(err)
 
 	if prop.VT != ole.VT_DISPATCH {
-		u.Catch(errors.New("not a dispatch object"))
+		u.Catch(errors.New("Not a dispatch object"))
 	}
 
 	return prop.ToIDispatch()

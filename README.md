@@ -1,4 +1,6 @@
-go-outlooky
+# :rocket: Overview
+go-outlooky automation tool for Outlook 2016*
+> *Should work with older versions but have not tested it.
 
 # :book: Reference 
 - [Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.office.interop.outlook?view=outlook-pia)
