@@ -6,7 +6,7 @@ import (
 
 	ole "github.com/go-ole/go-ole"
 	"github.com/go-ole/go-ole/oleutil"
-	u "github.com/janmir/go-util"
+	"github.com/janmir/go-util"
 )
 
 const (
@@ -51,13 +51,13 @@ func init() {
 	ole.CoInitialize(0)
 
 	unknown, err := oleutil.CreateObject(_AppName)
-	u.Catch(err)
+	util.Catch(err)
 
 	handle, err := unknown.QueryInterface(ole.IID_IDispatch)
-	u.Catch(err)
+	util.Catch(err)
 
 	api, err := oleutil.CallMethod(handle, "GetNamespace", "MAPI")
-	u.Catch(err)
+	util.Catch(err)
 
 	//References
 	outlook.handle = handle
@@ -70,7 +70,7 @@ func init() {
 
 //GetMails ...
 func (out Outlooky) GetMails(arg ...interface{}) Tree {
-	defer u.TimeTrack(time.Now(), "GetMails")
+	defer util.TimeTrack(time.Now(), "GetMails")
 
 	//get inbox
 	var (
@@ -99,14 +99,14 @@ func (out Outlooky) GetMails(arg ...interface{}) Tree {
 	tree.Name = name
 	tree.Leaves = out.GetLeaf(tree, MailItem{}, true)
 
-	u.Logger("Fetched: ", len(tree.Leaves))
+	util.Logger("Fetched: ", len(tree.Leaves))
 
 	return tree
 }
 
 //ListMails list/filter mail, read/unread
 func (out Outlooky) ListMails(tree Tree, unread bool) []MailItem {
-	defer u.TimeTrack(time.Now(), "ListMails")
+	defer util.TimeTrack(time.Now(), "ListMails")
 
 	newList := make([]MailItem, 0)
 
@@ -122,7 +122,7 @@ func (out Outlooky) ListMails(tree Tree, unread bool) []MailItem {
 
 //UpdateMail ...
 func (out Outlooky) UpdateMail(o, n MailItem) {
-	defer u.TimeTrack(time.Now(), "UpdateMail")
+	defer util.TimeTrack(time.Now(), "UpdateMail")
 	item := o.Data
 
 	//Apply updates
@@ -153,7 +153,7 @@ func (out Outlooky) GetLeaf(tree Tree, identifier Leaf, sort bool) []interface{}
 	count := int(out.GetPropertyValue(branch, "Count").(int32))
 
 	//set limit
-	count = u.Min(_Limit, count)
+	count = util.Min(_Limit, count)
 
 	//Traverse
 	for i := 1; i <= count; i++ {
@@ -170,7 +170,7 @@ func (out Outlooky) GetLeaf(tree Tree, identifier Leaf, sort bool) []interface{}
 //GetDefaultFolder ...
 func (out Outlooky) GetDefaultFolder(id int) *ole.IDispatch {
 	folder, err := out.CallMethod(out.api, "GetDefaultFolder", id)
-	u.Catch(err)
+	util.Catch(err)
 
 	return folder.ToIDispatch()
 }
@@ -198,7 +198,7 @@ func (out Outlooky) GetItem(folder *ole.IDispatch, arg ...interface{}) *ole.IDis
 // e.g. _MailItem
 func (out Outlooky) GetItems(folder *ole.IDispatch) *ole.IDispatch {
 	items, err := out.CallMethod(folder, "Items")
-	u.Catch(err)
+	util.Catch(err)
 
 	return items.ToIDispatch()
 }
@@ -206,7 +206,7 @@ func (out Outlooky) GetItems(folder *ole.IDispatch) *ole.IDispatch {
 //GetPropertyValue ...
 func (out Outlooky) GetPropertyValue(item *ole.IDispatch, name string, params ...interface{}) interface{} {
 	prop, err := oleutil.GetProperty(item, name, params...)
-	u.Catch(err)
+	util.Catch(err)
 
 	return prop.Value()
 }
@@ -214,10 +214,10 @@ func (out Outlooky) GetPropertyValue(item *ole.IDispatch, name string, params ..
 //GetPropertyObject ...
 func (out Outlooky) GetPropertyObject(item *ole.IDispatch, name string, params ...interface{}) *ole.IDispatch {
 	prop, err := oleutil.GetProperty(item, name, params...)
-	u.Catch(err)
+	util.Catch(err)
 
 	if prop.VT != ole.VT_DISPATCH {
-		u.Catch(errors.New("Not a dispatch object"))
+		util.Catch(errors.New("Not a dispatch object"))
 	}
 
 	return prop.ToIDispatch()
@@ -226,7 +226,7 @@ func (out Outlooky) GetPropertyObject(item *ole.IDispatch, name string, params .
 //SetPropertyValue ...
 func (out Outlooky) SetPropertyValue(item *ole.IDispatch, name string, params ...interface{}) {
 	_, err := oleutil.PutProperty(item, name, params...)
-	u.Catch(err)
+	util.Catch(err)
 
 	//save changes
 	out.SaveItem(item)
@@ -235,19 +235,19 @@ func (out Outlooky) SetPropertyValue(item *ole.IDispatch, name string, params ..
 //SortItems ...
 func (out Outlooky) SortItems(items *ole.IDispatch, by string, desc bool) {
 	_, err := out.CallMethod(items, "Sort", by, desc)
-	u.Catch(err)
+	util.Catch(err)
 }
 
 //SaveItem ...
 func (out Outlooky) SaveItem(item *ole.IDispatch) {
 	_, err := out.CallMethod(item, "Save")
-	u.Catch(err)
+	util.Catch(err)
 }
 
 //QuitApplication ...
 func (out Outlooky) QuitApplication() {
 	_, err := out.CallMethod(out.handle, "Quit")
-	u.Catch(err)
+	util.Catch(err)
 }
 
 //CallMethod ...
