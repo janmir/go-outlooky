@@ -23,6 +23,9 @@ const (
 	_Tasks    = 13  //Tasks
 
 	_AppName = "Outlook.Application"
+
+	//Globals
+	Inbox = _Inbox
 )
 
 var (
@@ -65,24 +68,27 @@ func init() {
 	outlook.api = api.ToIDispatch()
 }
 
+//Make Creates an instance of outlook
+func Make() Outlooky {
+	return outlook
+}
+
 /***************************************
 	Outlooky-looky Functions
 ****************************************/
 
 //GetMails ...
-func (out Outlooky) GetMails(arg ...interface{}) Tree {
+func (out Outlooky) GetMails(arg ...interface{}) (int, []MailItem) {
 	defer util.TimeTrack(time.Now(), "GetMails")
 
 	//get inbox
 	var (
 		inbox  *ole.IDispatch
-		tree   = Tree{}
 		length = len(arg)
-		name   = ""
 	)
 
 	if length == 0 {
-		return tree
+		return 0, []MailItem{}
 	}
 
 	if length == 1 {
@@ -96,29 +102,32 @@ func (out Outlooky) GetMails(arg ...interface{}) Tree {
 		inbox = out.GetCustomFolder(arg[0].(string), arg[1:]...)
 	}
 
-	tree.Handle = inbox
-	tree.Name = name
-	tree.Leaves = out.GetLeaf(tree, MailItem{}, true) //Returns []MailItem
+	interfaces := out.GetLeaf(inbox, MailItem{}, true) //Returns []MailItem
+	mails := make([]MailItem, len(interfaces))
 
-	util.Logger("GetMail Fetched: ", len(tree.Leaves))
+	//Transfer
+	for i, v := range interfaces {
+		mails[i] = v.(MailItem)
+	}
 
-	return tree
+	util.Logger("GetMail Fetched: ", len(mails))
+
+	return len(mails), mails
 }
 
 //ListMails list/filter mail, read/unread
-func (out Outlooky) ListMails(tree Tree, unread bool) []MailItem {
+func (out Outlooky) ListMails(mail []MailItem, unread bool) (int, []MailItem) {
 	defer util.TimeTrack(time.Now(), "ListMails")
 
 	newList := make([]MailItem, 0)
 
-	for _, v := range tree.Leaves {
-		item := v.(MailItem)
+	for _, item := range mail {
 		if item.UnRead == unread {
 			newList = append(newList, item)
 		}
 	}
 
-	return newList
+	return len(newList), newList
 }
 
 //UpdateMail ...
@@ -128,8 +137,8 @@ func (out Outlooky) UpdateMail(o, n MailItem) {
 
 	//Apply updates
 	_ = oleutil.MustPutProperty(item, "Subject", n.Subject)
-	_ = oleutil.MustPutProperty(item, "Body", n.Body)
-	_ = oleutil.MustPutProperty(item, "HTMLBody", n.HTMLBody)
+	// _ = oleutil.MustPutProperty(item, "Body", n.Body)
+	// _ = oleutil.MustPutProperty(item, "HTMLBody", n.HTMLBody)
 
 	//Save
 	out.SaveItem(item)
@@ -140,10 +149,10 @@ func (out Outlooky) UpdateMail(o, n MailItem) {
 ****************************************/
 
 //GetLeaf returns a single item of type interface
-func (out Outlooky) GetLeaf(tree Tree, identifier Leaf, sort bool) []interface{} {
+func (out Outlooky) GetLeaf(handle *ole.IDispatch, identifier Leaf, sort bool) []interface{} {
 	leaves := make([]interface{}, 0)
 
-	branch := out.GetItems(tree.Handle)
+	branch := out.GetItems(handle)
 
 	//sort
 	if sort {

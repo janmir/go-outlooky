@@ -113,8 +113,8 @@ func (m MailItem) Unmarshal(data *ole.IDispatch) interface{} {
 	mm := MailItem{Data: data}
 	mm.Subject = outlook.GetPropertyValue(data, "Subject").(string)
 	mm.UnRead = outlook.GetPropertyValue(data, "UnRead").(bool)
-	mm.HTMLBody = outlook.GetPropertyValue(data, "HTMLBody").(string)
-	mm.Body = outlook.GetPropertyValue(data, "Body").(string)
+	// mm.HTMLBody = outlook.GetPropertyValue(data, "HTMLBody").(string)
+	// mm.Body = outlook.GetPropertyValue(data, "Body").(string)
 
 	return mm
 }

@@ -9,21 +9,21 @@ import (
 func TestSingleGetMail(t *testing.T) {
 	defer u.Recover()
 
-	tree := outlook.GetMails("paulzu100@gmail.com")
+	count, _ := outlook.GetMails("****************")
 
-	if len(tree.Leaves) > 0 {
+	if count > 0 {
 		t.Fail()
 	}
 
-	tree = outlook.GetMails(_Inbox)
+	count, _ = outlook.GetMails(_Inbox)
 
-	if len(tree.Leaves) <= 0 {
+	if count <= 0 {
 		t.Fail()
 	}
 
-	tree = outlook.GetMails()
+	count, _ = outlook.GetMails()
 
-	if len(tree.Leaves) > 0 {
+	if count > 0 {
 		t.Fail()
 	}
 }
@@ -31,14 +31,14 @@ func TestSingleGetMail(t *testing.T) {
 func TestGetMail(t *testing.T) {
 	defer u.Recover()
 
-	tree := outlook.GetMails("paulzu100@gmail.com", "Custom")
-	leaves := outlook.ListMails(tree, true)
+	_, mails := outlook.GetMails("****************", "Custom")
+	_, filtered := outlook.ListMails(mails, true)
 
-	u.Logger(leaves)
+	u.Logger(filtered)
 
 	//make updates
-	if len(leaves) > 0 {
-		outlook.UpdateMail(leaves[0], MailItem{
+	if len(filtered) > 0 {
+		outlook.UpdateMail(filtered[0], MailItem{
 			Subject:  "Hello",
 			Body:     "Hello",
 			HTMLBody: `<span style="font-size:11px;background-color:dimgray;color:white;font-family:Verdana;display:inline-block;padding:0px 5px;border-radius:5px;"> <img src="" alt="Hello there!"/> Hello </span>`,
@@ -56,7 +56,7 @@ func TestGetDefault(t *testing.T) {
 }
 
 func TestGetCustom(t *testing.T) {
-	folder := outlook.GetCustomFolder("paulzu100@gmail.com", "Custom", "Custom")
+	folder := outlook.GetCustomFolder("****************", "Custom", "Custom")
 	if folder == nil {
 		t.Fail()
 	}

@@ -21,4 +21,6 @@ go-outlooky automation tool for Outlook 2016*
                                             Roman/      (Common &      (Rare)    
                                           Half-width    Uncommon)
                                            Katakana
+
+ 一-龯|぀-ゖ|ァ-ヺ|ｦ-ﾝ|ㇰ-ㇿ|Ａ-Ｚ|ａ-ｚ|０-９（）ー［］ー・
 ```

@@ -1,0 +1,3 @@
+// +build !release
+
+package main
