@@ -2,6 +2,7 @@ package outlooky
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	ole "github.com/go-ole/go-ole"
@@ -48,7 +49,7 @@ type Leaf interface {
 
 func init() {
 	outlook = Outlooky{}
-	ole.CoInitialize(0)
+	ole.CoInitializeEx(0, 0)
 
 	unknown, err := oleutil.CreateObject(_AppName)
 	util.Catch(err)
@@ -97,9 +98,9 @@ func (out Outlooky) GetMails(arg ...interface{}) Tree {
 
 	tree.Handle = inbox
 	tree.Name = name
-	tree.Leaves = out.GetLeaf(tree, MailItem{}, true)
+	tree.Leaves = out.GetLeaf(tree, MailItem{}, true) //Returns []MailItem
 
-	util.Logger("Fetched: ", len(tree.Leaves))
+	util.Logger("GetMail Fetched: ", len(tree.Leaves))
 
 	return tree
 }
@@ -151,14 +152,17 @@ func (out Outlooky) GetLeaf(tree Tree, identifier Leaf, sort bool) []interface{}
 
 	//traverse
 	count := int(out.GetPropertyValue(branch, "Count").(int32))
+	util.Logger("GetLeaf Count: ", count)
 
-	//set limit
-	count = util.Min(_Limit, count)
+	if count > 0 {
+		//set limit
+		count = util.Min(_Limit, count)
 
-	//Traverse
-	for i := 1; i <= count; i++ {
-		leaf := out.GetItem(branch, i)
-		leaves = append(leaves, identifier.Unmarshal(leaf))
+		//Traverse
+		for i := 1; i <= count; i++ {
+			leaf := out.GetItem(branch, i)
+			leaves = append(leaves, identifier.Unmarshal(leaf))
+		}
 	}
 
 	return leaves
@@ -170,7 +174,7 @@ func (out Outlooky) GetLeaf(tree Tree, identifier Leaf, sort bool) []interface{}
 //GetDefaultFolder ...
 func (out Outlooky) GetDefaultFolder(id int) *ole.IDispatch {
 	folder, err := out.CallMethod(out.api, "GetDefaultFolder", id)
-	util.Catch(err)
+	util.Catch(err, "Get Default Folder Failed.")
 
 	return folder.ToIDispatch()
 }
@@ -198,7 +202,7 @@ func (out Outlooky) GetItem(folder *ole.IDispatch, arg ...interface{}) *ole.IDis
 // e.g. _MailItem
 func (out Outlooky) GetItems(folder *ole.IDispatch) *ole.IDispatch {
 	items, err := out.CallMethod(folder, "Items")
-	util.Catch(err)
+	util.Catch(err, "Failed retrieving items.")
 
 	return items.ToIDispatch()
 }
@@ -206,7 +210,7 @@ func (out Outlooky) GetItems(folder *ole.IDispatch) *ole.IDispatch {
 //GetPropertyValue ...
 func (out Outlooky) GetPropertyValue(item *ole.IDispatch, name string, params ...interface{}) interface{} {
 	prop, err := oleutil.GetProperty(item, name, params...)
-	util.Catch(err)
+	util.Catch(err, fmt.Sprintf(`Unable to get property value %s of value "%v"`, name, params))
 
 	return prop.Value()
 }
@@ -214,7 +218,7 @@ func (out Outlooky) GetPropertyValue(item *ole.IDispatch, name string, params ..
 //GetPropertyObject ...
 func (out Outlooky) GetPropertyObject(item *ole.IDispatch, name string, params ...interface{}) *ole.IDispatch {
 	prop, err := oleutil.GetProperty(item, name, params...)
-	util.Catch(err)
+	util.Catch(err, fmt.Sprintf(`Unable to get property object %s of value "%v"`, name, params))
 
 	if prop.VT != ole.VT_DISPATCH {
 		util.Catch(errors.New("Not a dispatch object"))
@@ -226,7 +230,7 @@ func (out Outlooky) GetPropertyObject(item *ole.IDispatch, name string, params .
 //SetPropertyValue ...
 func (out Outlooky) SetPropertyValue(item *ole.IDispatch, name string, params ...interface{}) {
 	_, err := oleutil.PutProperty(item, name, params...)
-	util.Catch(err)
+	util.Catch(err, fmt.Sprintf(`Unable to set property value %s to "%v"`, name, params))
 
 	//save changes
 	out.SaveItem(item)
@@ -235,19 +239,19 @@ func (out Outlooky) SetPropertyValue(item *ole.IDispatch, name string, params ..
 //SortItems ...
 func (out Outlooky) SortItems(items *ole.IDispatch, by string, desc bool) {
 	_, err := out.CallMethod(items, "Sort", by, desc)
-	util.Catch(err)
+	util.Catch(err, "Sort failed execution")
 }
 
 //SaveItem ...
 func (out Outlooky) SaveItem(item *ole.IDispatch) {
 	_, err := out.CallMethod(item, "Save")
-	util.Catch(err)
+	util.Catch(err, "Unable to save the item.")
 }
 
 //QuitApplication ...
 func (out Outlooky) QuitApplication() {
 	_, err := out.CallMethod(out.handle, "Quit")
-	util.Catch(err)
+	util.Catch(err, "Unable to quit application.")
 }
 
 //CallMethod ...
