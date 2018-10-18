@@ -24,7 +24,7 @@ const (
 
 	_AppName = "Outlook.Application"
 
-	//Globals
+	//Inbox publicly available Inbox constant
 	Inbox = _Inbox
 )
 

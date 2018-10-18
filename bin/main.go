@@ -3,7 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
+	"html"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -14,7 +16,7 @@ import (
 )
 
 const (
-	_post    = `「☘`
+	_post    = `☘`
 	_nihongo = `[一-龯|぀-ゖ|ァ-ヺ|ｦ-ﾝ|ㇰ-ㇿ|Ａ-Ｚ|ａ-ｚ|０-９（）ー［］ー・]`
 
 	_trys = 5
@@ -23,12 +25,18 @@ const (
 
 var (
 	flag       = pflag.CustomFlagSet("Outlooky", false, errors.New(""))
+	temp       = flag.BoolP("temp", "x", false, "Temporary Testing Ground.")
 	translator = flag.BoolP("translate", "t", true, "Translate Japanese Text to En.")
 	unread     = flag.BoolP("unread", "u", true, "Changes will only apply to unread messages.")
 	folder     = flag.StringP("folder", "f", "", "Comma-Serated paths to folder")
 
 	nxp *regexp.Regexp
 	pxp *regexp.Regexp
+
+	procName   string
+	removables = []string{
+		"[External]",
+	}
 )
 
 func init() {
@@ -41,10 +49,21 @@ func init() {
 
 	pxp, err = regexp.Compile(_post)
 	util.Catch(err)
+
+	procName = filepath.Base(os.Args[0])
+
+	//Enable file logging
+	util.EnableFileLogging()
 }
 
 func main() {
+	//Check running instances
+	if util.AmIRunning(procName) > 1 {
+		util.Catch(errors.New("Instance is already running, exiting now... "))
+	}
+
 	switch {
+	case *temp:
 	case *translator:
 		defer util.TimeTrack(time.Now(), "Translation")
 
@@ -62,14 +81,28 @@ func main() {
 		gt := NewTranslator()
 		for _, v := range mails {
 			subject := v.Subject
+			og := v.Subject
+
+			//Remove all removables
+			for _, v := range removables {
+				subject = strings.Replace(subject, v, "", -1)
+			}
+
 			//Check Subject
 			if nxp.MatchString(subject) && !pxp.MatchString(subject) {
 				// Translate
+				util.Logger("Original: ", og)
 				translated := gt.Translate(subject)
 				util.Logger("Translated: ", translated)
 
+				//un-escape translated string
+				translated = html.UnescapeString(translated)
+
+				//Clean whitespaces
+				translated = strings.TrimSpace(translated)
+
 				outlook.UpdateMail(v, outlooky.MailItem{
-					Subject: fmt.Sprintf("%s %s」%s", _post, translated, subject),
+					Subject: fmt.Sprintf("⦗%s %s %s⦘ %s", _post, translated, _post, og),
 				})
 			} else {
 				util.Logger("Skipped: ", subject)
