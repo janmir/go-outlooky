@@ -38,7 +38,7 @@ func NewTranslator() GTranslator {
 	util.Catch(err)
 
 	file := filepath.Join(path, _authPath)
-	util.Logger("Auth Filepath: ", file)
+	// util.Logger("Auth Filepath: ", file)
 
 	client, err := translate.NewClient(ctx, option.WithCredentialsFile(file))
 	util.Catch(err, "Failed in initializing translation client.")

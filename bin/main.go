@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	_post    = `☘`
+	_post    = `✱`
 	_nihongo = `[一-龯|぀-ゖ|ァ-ヺ|ｦ-ﾝ|ㇰ-ㇿ|Ａ-Ｚ|ａ-ｚ|０-９（）ー［］ー・]`
 
 	_trys = 5
@@ -115,10 +115,6 @@ func main() {
 }
 
 func getMails(outlook outlooky.Outlooky) (int, []outlooky.MailItem) {
-	//pause first
-	//util.Logger("Pausing...")
-	//time.Sleep(time.Second * 10)
-
 	try := _trys
 
 	for try > 0 {
@@ -151,10 +147,13 @@ func getMails(outlook outlooky.Outlooky) (int, []outlooky.MailItem) {
 			}
 		}
 
-		//Sleep
 		try--
-		util.Logger("Waiting...")
-		time.Sleep(time.Millisecond * _wait)
+
+		//Sleep
+		if try > 0 {
+			util.Logger("Waiting...")
+			time.Sleep(time.Millisecond * _wait)
+		}
 	}
 	return 0, []outlooky.MailItem{}
 }
