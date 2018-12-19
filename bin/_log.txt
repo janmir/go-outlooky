@@ -1,0 +1,257 @@
+✱ 11:02:41.286251 GetLeaf Count:  4566
+✱ 11:02:41.469381 GetMail Fetched:  100
+✱ 11:02:41.469381 [95;1mTimestamp[0m [91;1mGetMails[0m took 1.1558919s
+✱ 11:02:41.470381 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:02:41.471382 Unread:  1
+✱ 11:02:41.496400 Skipped ➜  ⦗✱ This is a very complex text Test Message ✱⦘  これは非常に複雑なテキストです Test Message
+✱ 11:02:41.496400 [95;1mTimestamp[0m [91;1mTranslation[0m took 1.1829111s
+✱ 11:05:46.630274 GetLeaf Count:  4566
+✱ 11:05:46.718336 GetMail Fetched:  100
+✱ 11:05:46.718336 [95;1mTimestamp[0m [91;1mGetMails[0m took 90.0629ms
+✱ 11:05:46.719336 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:05:46.722339 Unread:  1
+✱ 11:05:46.735347 Skipped ➜  ⦗✱ This is a very complex text Test Message ✱⦘  これは非常に複雑なテキストです Test Message
+✱ 11:05:46.736352 [95;1mTimestamp[0m [91;1mTranslation[0m took 108.0792ms
+✱ 11:06:38.494300 GetLeaf Count:  4566
+✱ 11:06:38.635399 GetMail Fetched:  100
+✱ 11:06:38.636400 [95;1mTimestamp[0m [91;1mGetMails[0m took 143.1008ms
+✱ 11:06:38.637400 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:06:38.637400 Unread:  1
+✱ 11:06:38.638401 Skipped ➜  ⦗✱ This is a very complex text Test Message ✱⦘  これは非常に複雑なテキストです Test Message
+✱ 11:06:38.639402 [95;1mTimestamp[0m [91;1mTranslation[0m took 146.1024ms
+✱ 11:08:58.660894 GetLeaf Count:  4567
+✱ 11:08:58.757962 GetMail Fetched:  100
+✱ 11:08:58.757962 [95;1mTimestamp[0m [91;1mGetMails[0m took 99.0705ms
+✱ 11:08:58.758962 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:08:58.759963 Unread:  1
+✱ 11:08:58.763966 Original ➜  [External] これは非常に複雑なテキストです
+✱ 11:09:00.149170 [{This is a very complex text und }]
+✱ 11:09:00.149170 Translated ➜  This is a very complex text
+✱ 11:09:00.166181 [91;1mError[0m [96;1mmain:150 » outlooky:144 » outlooky:257[0m [97;1mException occurred. (The operation cannot be performed because the message has been changed.)[0m [93;1m🛈 Unable to save the item.[0m
+✱ 11:27:14.849189 GetLeaf Count:  4567
+✱ 11:27:14.934253 GetMail Fetched:  100
+✱ 11:27:14.935250 [95;1mTimestamp[0m [91;1mGetMails[0m took 121.9681ms
+✱ 11:27:14.936251 [95;1mTimestamp[0m [91;1mListMails[0m took 1.0013ms
+✱ 11:27:14.937252 Unread:  1
+✱ 11:27:14.940254 Error: Key "[External] これは非常に複雑なテキストです" not found.
+✱ 11:27:14.942255 ✱ Google Translate ✱
+✱ 11:27:14.942255 Original ➜  [External] これは非常に複雑なテキストです
+✱ 11:27:16.372349 Translations: [{Text:This is a very complex text Source:und Model:}]
+✱ 11:27:16.373370 Translated ➜  This is a very complex text
+✱ 11:27:16.386361 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 11.009ms
+✱ 11:27:16.387361 [95;1mTimestamp[0m [91;1mTranslation[0m took 1.575076s
+✱ 11:28:22.628127 GetLeaf Count:  4567
+✱ 11:28:22.722194 GetMail Fetched:  100
+✱ 11:28:22.723194 [95;1mTimestamp[0m [91;1mGetMails[0m took 97.0691ms
+✱ 11:28:22.724196 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:28:22.725196 Unread:  2
+✱ 11:28:22.730199 Skipped ➜  ⦗✱ This is a very complex text Test Message ✱⦘  これは非常に複雑なテキストです Test Message
+✱ 11:28:22.730199 Skipped ➜  ⦗✱ This is a very complex text ✱⦘  これは非常に複雑なテキストです
+✱ 11:28:22.730199 [95;1mTimestamp[0m [91;1mTranslation[0m took 104.0739ms
+✱ 11:28:56.469739 GetLeaf Count:  4567
+✱ 11:28:56.561803 GetMail Fetched:  100
+✱ 11:28:56.562805 [95;1mTimestamp[0m [91;1mGetMails[0m took 95.0681ms
+✱ 11:28:56.563805 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:28:56.564806 Unread:  1
+✱ 11:28:56.565807 Skipped ➜  ⦗✱ This is a very complex text Test Message ✱⦘  これは非常に複雑なテキストです Test Message
+✱ 11:28:56.566807 [95;1mTimestamp[0m [91;1mTranslation[0m took 99.0702ms
+✱ 11:29:29.417117 GetLeaf Count:  4567
+✱ 11:29:29.501178 GetMail Fetched:  100
+✱ 11:29:29.502178 [95;1mTimestamp[0m [91;1mGetMails[0m took 87.062ms
+✱ 11:29:29.503179 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:29:29.504179 Unread:  2
+✱ 11:29:29.507183 Skipped ➜  ⦗✱ This is a very complex text Test Message ✱⦘  これは非常に複雑なテキストです Test Message
+✱ 11:29:29.507183 ✱ Cache Translate ✱
+✱ 11:29:29.511184 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 4.0011ms
+✱ 11:29:29.513185 [95;1mTimestamp[0m [91;1mTranslation[0m took 97.0687ms
+✱ 11:31:19.238008 GetLeaf Count:  4567
+✱ 11:31:19.324067 GetMail Fetched:  100
+✱ 11:31:19.324067 [95;1mTimestamp[0m [91;1mGetMails[0m took 88.0608ms
+✱ 11:31:19.326069 [95;1mTimestamp[0m [91;1mListMails[0m took 1.0013ms
+✱ 11:31:19.327069 Unread:  2
+✱ 11:31:19.329070 Error: Key "[External] これは非常に複雑なテキストです Test Message" not found.
+✱ 11:31:19.329070 ✱ Google Translate ✱
+✱ 11:31:19.329070 Original ➜  [External] これは非常に複雑なテキストです Test Message
+✱ 11:31:20.036283 Translations: [{Text:This is a very complex text Test Message Source:und Model:}]
+✱ 11:31:20.038285 Translated ➜  This is a very complex text Test Message
+✱ 11:31:20.052295 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 13.0097ms
+✱ 11:31:20.061301 ✱ Cache Translate ✱
+✱ 11:31:20.092323 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 30.0215ms
+✱ 11:31:20.148363 [95;1mTimestamp[0m [91;1mTranslation[0m took 912.3565ms
+✱ 11:32:12.620092 GetLeaf Count:  4567
+✱ 11:32:12.707155 GetMail Fetched:  100
+✱ 11:32:12.708155 [95;1mTimestamp[0m [91;1mGetMails[0m took 91.0652ms
+✱ 11:32:12.709156 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:32:12.710156 Unread:  2
+✱ 11:32:12.712157 ✱ Cache Translate ✱
+✱ 11:32:12.716163 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 4.0053ms
+✱ 11:32:12.721164 ✱ Cache Translate ✱
+✱ 11:32:12.741180 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 20.0152ms
+✱ 11:32:12.749184 [95;1mTimestamp[0m [91;1mTranslation[0m took 131.0928ms
+✱ 11:36:02.160004 GetLeaf Count:  4567
+✱ 11:36:02.252066 GetMail Fetched:  100
+✱ 11:36:02.253067 [95;1mTimestamp[0m [91;1mGetMails[0m took 95.0667ms
+✱ 11:36:02.254070 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:36:02.255068 Unread:  1
+✱ 11:36:02.258071 Skipped ➜  ⦗✱ This is a very complex text ✱⦘  これは非常に複雑なテキストです
+✱ 11:36:02.259071 [95;1mTimestamp[0m [91;1mTranslation[0m took 102.0718ms
+✱ 11:36:20.068747 GetLeaf Count:  4567
+✱ 11:36:20.161812 GetMail Fetched:  100
+✱ 11:36:20.162813 [95;1mTimestamp[0m [91;1mGetMails[0m took 96.0661ms
+✱ 11:36:20.163815 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:36:20.164815 No unread mails
+✱ 11:36:20.164815 Waiting...
+✱ 11:36:22.167057 GetLeaf Count:  4567
+✱ 11:36:22.257120 GetMail Fetched:  100
+✱ 11:36:22.257120 [95;1mTimestamp[0m [91;1mGetMails[0m took 91.0642ms
+✱ 11:36:22.258122 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:36:22.259121 No unread mails
+✱ 11:36:22.259121 Waiting...
+✱ 11:36:24.268053 GetLeaf Count:  4567
+✱ 11:36:24.361118 GetMail Fetched:  100
+✱ 11:36:24.362121 [95;1mTimestamp[0m [91;1mGetMails[0m took 95.068ms
+✱ 11:36:24.363121 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:36:24.364122 No unread mails
+✱ 11:36:24.364122 Waiting...
+✱ 11:36:26.377168 GetLeaf Count:  4567
+✱ 11:36:26.469232 GetMail Fetched:  100
+✱ 11:36:26.469232 [95;1mTimestamp[0m [91;1mGetMails[0m took 93.2074ms
+✱ 11:36:26.471233 [95;1mTimestamp[0m [91;1mListMails[0m took 1.0009ms
+✱ 11:36:26.472234 No unread mails
+✱ 11:36:26.472234 Waiting...
+✱ 11:36:28.487033 GetLeaf Count:  4567
+✱ 11:36:28.576105 GetMail Fetched:  100
+✱ 11:36:28.576105 [95;1mTimestamp[0m [91;1mGetMails[0m took 91.074ms
+✱ 11:36:28.577095 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:36:28.578095 No unread mails
+✱ 11:36:28.578095 Unread:  0
+✱ 11:36:28.579098 [91;1mError[0m [96;1masm_amd64.s:2361 » proc:198 » main:97[0m [97;1mNothing to process[0m
+✱ 11:41:37.250479 GetLeaf Count:  4567
+✱ 11:41:37.333536 GetMail Fetched:  100
+✱ 11:41:37.333536 [95;1mTimestamp[0m [91;1mGetMails[0m took 85.0599ms
+✱ 11:41:37.334537 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:41:37.335538 No unread mails
+✱ 11:41:37.335538 Waiting...
+✱ 11:41:39.337377 GetLeaf Count:  4567
+✱ 11:41:39.432430 GetMail Fetched:  100
+✱ 11:41:39.433430 [95;1mTimestamp[0m [91;1mGetMails[0m took 97.0415ms
+✱ 11:41:39.434430 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:41:39.435432 No unread mails
+✱ 11:41:39.436432 Waiting...
+✱ 11:41:41.441143 GetLeaf Count:  4567
+✱ 11:41:41.530204 GetMail Fetched:  100
+✱ 11:41:41.531205 [95;1mTimestamp[0m [91;1mGetMails[0m took 91.2241ms
+✱ 11:41:41.532207 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:41:41.533207 No unread mails
+✱ 11:41:41.533207 Waiting...
+✱ 11:41:43.536331 GetLeaf Count:  4567
+✱ 11:41:43.649412 GetMail Fetched:  100
+✱ 11:41:43.649412 [95;1mTimestamp[0m [91;1mGetMails[0m took 115.3005ms
+✱ 11:41:43.651412 [95;1mTimestamp[0m [91;1mListMails[0m took 1.0009ms
+✱ 11:41:43.652414 No unread mails
+✱ 11:41:43.652414 Waiting...
+✱ 11:41:45.653565 GetLeaf Count:  4567
+✱ 11:41:45.747615 GetMail Fetched:  100
+✱ 11:41:45.748616 [95;1mTimestamp[0m [91;1mGetMails[0m took 96.0515ms
+✱ 11:41:45.749616 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:41:45.749616 No unread mails
+✱ 11:41:45.750618 Unread:  0
+✱ 11:41:45.750618 [91;1mError[0m [96;1masm_amd64.s:2361 » proc:198 » main:97[0m [97;1mNothing to process[0m
+✱ 11:43:59.873901 GetLeaf Count:  4567
+✱ 11:43:59.964969 GetMail Fetched:  100
+✱ 11:43:59.966966 [95;1mTimestamp[0m [91;1mGetMails[0m took 94.0668ms
+✱ 11:43:59.967967 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:43:59.968968 Unread:  2
+✱ 11:43:59.975972 Error: Key "[External] これは非常に複雑なテキストです Test Message" not found.
+✱ 11:43:59.976975 ✱ Google Translate ✱
+✱ 11:43:59.977974 Original ➜  [External] これは非常に複雑なテキストです Test Message
+✱ 11:44:02.147594 Translations: [{Text:This is a very complex text Test Message Source:und Model:}]
+✱ 11:44:02.147594 Translated ➜  This is a very complex text Test Message
+✱ 11:44:02.153596 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 5.003ms
+✱ 11:44:02.155598 Error: Key "[External] これは非常に複雑なテキストです" not found.
+✱ 11:44:02.157600 ✱ Google Translate ✱
+✱ 11:44:02.157600 Original ➜  [External] これは非常に複雑なテキストです
+✱ 11:44:02.232780 Translations: [{Text:This is a very complex text Source:und Model:}]
+✱ 11:44:02.232780 Translated ➜  This is a very complex text
+✱ 11:44:02.238785 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 5.0027ms
+✱ 11:44:02.239785 [95;1mTimestamp[0m [91;1mTranslation[0m took 2.3678868s
+✱ 11:44:16.282449 GetLeaf Count:  4567
+✱ 11:44:16.376514 GetMail Fetched:  100
+✱ 11:44:16.376514 [95;1mTimestamp[0m [91;1mGetMails[0m took 97.0511ms
+✱ 11:44:16.378516 [95;1mTimestamp[0m [91;1mListMails[0m took 1.0016ms
+✱ 11:44:16.380520 Unread:  2
+✱ 11:44:16.383519 Skipped ➜  ⦗✱ This is a very complex text Test Message ✱⦘  これは非常に複雑なテキストです Test Message
+✱ 11:44:16.384520 Skipped ➜  ⦗✱ This is a very complex text ✱⦘  これは非常に複雑なテキストです
+✱ 11:44:16.384520 [95;1mTimestamp[0m [91;1mTranslation[0m took 105.0571ms
+✱ 11:44:57.768627 GetLeaf Count:  4567
+✱ 11:44:57.860690 GetMail Fetched:  100
+✱ 11:44:57.861692 [95;1mTimestamp[0m [91;1mGetMails[0m took 94.0665ms
+✱ 11:44:57.861692 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:44:57.862693 Unread:  2
+✱ 11:44:57.864695 ✱ Cache Translate ✱
+✱ 11:44:57.869697 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 5.002ms
+✱ 11:44:57.870697 ✱ Cache Translate ✱
+✱ 11:44:57.890712 [95;1mTimestamp[0m [91;1mUpdateMail[0m took 18.012ms
+✱ 11:44:57.897716 [95;1mTimestamp[0m [91;1mTranslation[0m took 130.0919ms
+✱ 11:45:09.602958 GetLeaf Count:  4567
+✱ 11:45:09.692019 GetMail Fetched:  100
+✱ 11:45:09.692019 [95;1mTimestamp[0m [91;1mGetMails[0m took 91.0631ms
+✱ 11:45:09.693019 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:09.693019 No unread mails
+✱ 11:45:09.694020 Waiting...
+✱ 11:45:11.707072 GetLeaf Count:  4567
+✱ 11:45:11.793132 GetMail Fetched:  100
+✱ 11:45:11.793132 [95;1mTimestamp[0m [91;1mGetMails[0m took 88.2469ms
+✱ 11:45:11.794133 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:11.795135 No unread mails
+✱ 11:45:11.795135 Waiting...
+✱ 11:45:13.799938 GetLeaf Count:  4567
+✱ 11:45:13.889000 GetMail Fetched:  100
+✱ 11:45:13.889999 [95;1mTimestamp[0m [91;1mGetMails[0m took 91.1778ms
+✱ 11:45:13.891000 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:13.892019 No unread mails
+✱ 11:45:13.893003 Waiting...
+✱ 11:45:15.897982 GetLeaf Count:  4567
+✱ 11:45:15.990046 GetMail Fetched:  100
+✱ 11:45:15.990046 [95;1mTimestamp[0m [91;1mGetMails[0m took 96.0672ms
+✱ 11:45:15.991048 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:15.992049 No unread mails
+✱ 11:45:15.992049 Waiting...
+✱ 11:45:17.993905 GetLeaf Count:  4567
+✱ 11:45:18.087975 GetMail Fetched:  100
+✱ 11:45:18.088974 [95;1mTimestamp[0m [91;1mGetMails[0m took 95.0691ms
+✱ 11:45:18.089974 [95;1mTimestamp[0m [91;1mListMails[0m took 1.0009ms
+✱ 11:45:18.090973 No unread mails
+✱ 11:45:18.090973 Unread:  0
+✱ 11:45:18.125015 [91;1mError[0m [96;1masm_amd64.s:2361 » proc:198 » main:98[0m [97;1mNothing to process[0m
+✱ 11:45:24.946507 GetLeaf Count:  4567
+✱ 11:45:25.038572 GetMail Fetched:  100
+✱ 11:45:25.039572 [95;1mTimestamp[0m [91;1mGetMails[0m took 95.0652ms
+✱ 11:45:25.039572 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:25.040574 No unread mails
+✱ 11:45:25.041574 Waiting...
+✱ 11:45:27.044162 GetLeaf Count:  4567
+✱ 11:45:27.137226 GetMail Fetched:  100
+✱ 11:45:27.138227 [95;1mTimestamp[0m [91;1mGetMails[0m took 95.0666ms
+✱ 11:45:27.139227 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:27.140229 No unread mails
+✱ 11:45:27.140229 Waiting...
+✱ 11:45:29.144182 GetLeaf Count:  4567
+✱ 11:45:29.235246 GetMail Fetched:  100
+✱ 11:45:29.236248 [95;1mTimestamp[0m [91;1mGetMails[0m took 94.0675ms
+✱ 11:45:29.237247 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:29.238248 No unread mails
+✱ 11:45:29.238248 Waiting...
+✱ 11:45:31.241960 GetLeaf Count:  4567
+✱ 11:45:31.336027 GetMail Fetched:  100
+✱ 11:45:31.336027 [95;1mTimestamp[0m [91;1mGetMails[0m took 96.0115ms
+✱ 11:45:31.337028 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:31.338029 No unread mails
+✱ 11:45:31.338029 Waiting...
+✱ 11:45:33.348042 GetLeaf Count:  4567
+✱ 11:45:33.444110 GetMail Fetched:  100
+✱ 11:45:33.445119 [95;1mTimestamp[0m [91;1mGetMails[0m took 99.0776ms
+✱ 11:45:33.447114 [95;1mTimestamp[0m [91;1mListMails[0m took 0s
+✱ 11:45:33.447114 No unread mails
+✱ 11:45:33.448114 Unread:  0
+✱ 11:45:33.483209 [91;1mError[0m [96;1masm_amd64.s:2361 » proc:198 » main:98[0m [97;1mNothing to process[0m

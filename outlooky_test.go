@@ -9,7 +9,7 @@ import (
 func TestSingleGetMail(t *testing.T) {
 	defer u.Recover()
 
-	count, _ := outlook.GetMails("****************")
+	count, _ := outlook.GetMails("paulzu100@gmail.com")
 
 	if count > 0 {
 		t.Fail()
@@ -31,7 +31,7 @@ func TestSingleGetMail(t *testing.T) {
 func TestGetMail(t *testing.T) {
 	defer u.Recover()
 
-	_, mails := outlook.GetMails("****************", "Custom")
+	_, mails := outlook.GetMails("paulzu100@gmail.com", "Custom")
 	_, filtered := outlook.ListMails(mails, true)
 
 	u.Logger(filtered)
@@ -56,7 +56,7 @@ func TestGetDefault(t *testing.T) {
 }
 
 func TestGetCustom(t *testing.T) {
-	folder := outlook.GetCustomFolder("****************", "Custom", "Custom")
+	folder := outlook.GetCustomFolder("paulzu100@gmail.com", "Custom", "Custom")
 	if folder == nil {
 		t.Fail()
 	}

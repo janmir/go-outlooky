@@ -51,8 +51,8 @@ func NewTranslator() GTranslator {
 	}
 }
 
-//Translate ...
-func (g GTranslator) Translate(text string) string {
+//Translate returns translation object
+func (g GTranslator) Translate(text string) []translate.Translation {
 	util.Cyan("Translating: ", text)
 
 	// Translates the text into English.
@@ -62,8 +62,16 @@ func (g GTranslator) Translate(text string) string {
 	util.Catch(err, fmt.Sprintf("Failed to translate text: %v", err))
 
 	if len(translations) <= 0 {
-		return ""
+		return []translate.Translation{}
 	}
 
+	util.Logger("Translations: %+v\n", translations)
+	return translations
+}
+
+//TextTranslate returns the translated text
+func (g GTranslator) TextTranslate(text string) string {
+	// Translates the text into English.
+	translations := g.Translate(text)
 	return translations[0].Text
 }

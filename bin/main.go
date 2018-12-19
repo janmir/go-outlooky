@@ -10,23 +10,26 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dgraph-io/badger"
 	outlooky "github.com/janmir/go-outlooky"
 	"github.com/janmir/go-util"
 	"github.com/janmir/pflag"
 )
 
 const (
-	_post    = `✱`
+	_marker  = `✱`
 	_nihongo = `[一-龯|぀-ゖ|ァ-ヺ|ｦ-ﾝ|ㇰ-ㇿ|Ａ-Ｚ|ａ-ｚ|０-９（）ー［］ー・]`
 
 	_trys = 5
 	_wait = 2000
+
+	_cacheStoreDir = "."
 )
 
 var (
 	flag       = pflag.CustomFlagSet("Outlooky", false, errors.New(""))
 	temp       = flag.BoolP("temp", "x", false, "Temporary Testing Ground.")
-	translator = flag.BoolP("translate", "t", true, "Translate Japanese Text to En.")
+	translator = flag.BoolP("translate", "t", true, "Translate Japanese Text to English.")
 	unread     = flag.BoolP("unread", "u", true, "Changes will only apply to unread messages.")
 	folder     = flag.StringP("folder", "f", "", "Comma-Serated paths to folder")
 
@@ -37,6 +40,9 @@ var (
 	removables = []string{
 		"[External]",
 	}
+
+	//database
+	db *badger.DB
 )
 
 func init() {
@@ -47,16 +53,28 @@ func init() {
 	nxp, err = regexp.Compile(_nihongo)
 	util.Catch(err)
 
-	pxp, err = regexp.Compile(_post)
+	pxp, err = regexp.Compile(_marker)
 	util.Catch(err)
 
 	procName = filepath.Base(os.Args[0])
+
+	//initialize the data store
+	dir := util.Localize(_cacheStoreDir)
+
+	opts := badger.DefaultOptions
+	opts.Dir = dir
+	opts.ValueDir = dir
+
+	db, err = badger.Open(opts)
+	util.Catch(err)
 
 	//Enable file logging
 	util.EnableFileLogging()
 }
 
 func main() {
+	defer db.Close()
+
 	//Check running instances
 	if util.AmIRunning(procName) > 1 {
 		util.Catch(errors.New("Instance is already running, exiting now... "))
@@ -64,6 +82,8 @@ func main() {
 
 	switch {
 	case *temp:
+		//do nothing, this is only used to test init
+		//function contents
 	case *translator:
 		defer util.TimeTrack(time.Now(), "Translation")
 
@@ -74,11 +94,12 @@ func main() {
 		util.Logger("Unread: ", count)
 
 		if count == 0 {
+			db.Close()
 			util.Catch(errors.New("Nothing to process"))
 		}
 
 		//Check for Japanese Text
-		gt := NewTranslator()
+		gtranslator := NewTranslator()
 		for _, v := range mails {
 			subject := v.Subject
 			og := v.Subject
@@ -88,30 +109,76 @@ func main() {
 				subject = strings.Replace(subject, v, "", -1)
 			}
 
-			//Check Subject
+			//Check Subject if already translated or if it contains
+			//japanese characters
 			if nxp.MatchString(subject) && !pxp.MatchString(subject) {
-				// Translate
-				util.Logger("Original: ", og)
-				translated := gt.Translate(subject)
-				util.Logger("Translated: ", translated)
+				translated := getCache(og)
+				//check from cache first
+				if len(translated) > 0 {
+					util.Logger("✱ Cache Translate ✱")
+				} else {
+					util.Logger("✱ Google Translate ✱")
 
-				//un-escape translated string
-				translated = html.UnescapeString(translated)
+					//if not in cache Translate using google translator
+					util.Logger("Original ➜ ", og)
+					translated = gtranslator.TextTranslate(subject)
+					util.Logger("Translated ➜ ", translated)
 
-				//Clean whitespaces
-				translated = strings.TrimSpace(translated)
+					//un-escape translated string
+					translated = html.UnescapeString(translated)
+
+					//Clean pre/post whitespaces
+					translated = strings.TrimSpace(translated)
+
+					//add to cache
+					err := db.Update(func(txn *badger.Txn) error {
+						err := txn.Set([]byte(og), []byte(translated))
+						return err
+					})
+					util.Catch(err)
+				}
 
 				outlook.UpdateMail(v, outlooky.MailItem{
-					Subject: fmt.Sprintf("⦗%s %s %s⦘ %s", _post, translated, _post, og),
+					Subject: fmt.Sprintf("⦗%s %s %s⦘ %s", _marker, translated, _marker, og),
 				})
 			} else {
-				util.Logger("Skipped: ", subject)
+				util.Logger("Skipped ➜ ", subject)
 			}
 		}
 
 	default:
-		util.Red("Missing arguments, should either pass -t or -h/--help.")
+		util.Red("Missing arguments, should either pass -t/--translate or -h/--help.")
 	}
+}
+
+func getCache(key string) string {
+	var valCopy []byte
+	err := db.View(func(txn *badger.Txn) error {
+		item, err := txn.Get([]byte(key))
+		if err != nil {
+			return err
+		}
+
+		err = item.Value(func(val []byte) error {
+			// This func with val would only be called if item.Value encounters no error.
+
+			// Copying or parsing val is valid.
+			valCopy = append([]byte{}, val...)
+
+			return nil
+		})
+		return err
+	})
+
+	if err != nil {
+		switch err {
+		case badger.ErrKeyNotFound:
+			//key does not exist
+			util.Logger("Error: Key %q not found.", key)
+		}
+	}
+
+	return string(valCopy)
 }
 
 func getMails(outlook outlooky.Outlooky) (int, []outlooky.MailItem) {
@@ -147,6 +214,7 @@ func getMails(outlook outlooky.Outlooky) (int, []outlooky.MailItem) {
 			}
 		}
 
+		//decrement remaining trials
 		try--
 
 		//Sleep
