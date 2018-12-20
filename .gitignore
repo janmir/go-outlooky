@@ -3,12 +3,12 @@ bin/auth\.json
 
 bin/bin\.exe
 
-bin/bin\.txt
+bin/_log\.txt
 
-bin/bin\.vlog
+bin/000000\.vlog
 
-bin/bin\.sst
+bin/000002\.sst
 
-bin/bin\MANIFEST
+bin/MANIFEST
 
 bin/outlook_log\.txt

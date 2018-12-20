@@ -67,16 +67,21 @@ func init() {
 
 	db, err = badger.Open(opts)
 	util.Catch(err)
-
-	//Enable file logging
-	util.EnableFileLogging()
 }
 
 func main() {
 	defer db.Close()
 
+	if _debug {
+		//Dev mode
+	} else {
+		//Release Mode
+		util.EnableFileLogging()
+	}
+
 	//Check running instances
 	if util.AmIRunning(procName) > 1 {
+		db.Close()
 		util.Catch(errors.New("Instance is already running, exiting now... "))
 	}
 

@@ -1,8 +1,8 @@
 all:
 	go build -tags dev -race
 
-build:
+build-release:
 	go build -tags release
 
-build-no-gui:
-	go build -tags release -ldflags -H=windowsgui
+build-no-cli:
+	go build -tags release -ldflags -H=windowsgui -o bin.exe
